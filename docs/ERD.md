@@ -4,7 +4,7 @@
 - **Propósito:** Documentar el modelo de datos del sistema de gestión de usuarios y proyectos
 - **Versión:** 1.0
 - **Fecha:** 2026-03-13
-- **Autor:** Database Team
+- **Autor:** fisherk2
 - **Estado:** Activo
 - **Dominio:** Sistema de gestión de proyectos con usuarios
 
