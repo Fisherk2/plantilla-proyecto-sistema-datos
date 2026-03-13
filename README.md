@@ -1,4 +1,4 @@
-# 🗄️ Plantilla de Proyecto - Sistema de Datos PostgreSQL
+# Plantilla de Proyecto - Sistema de Datos PostgreSQL
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -57,6 +57,7 @@ Este template proporciona una estructura completa y replicable para proyectos de
 
 ### Software Recomendado
 - **pgAdmin** - Interfaz gráfica para PostgreSQL
+- **DBeaver** - Cliente SQL multiplataforma
 - **Docker** - Para entornos de desarrollo aislados
 - **VS Code** - Editor de código con extensiones SQL
 
@@ -80,8 +81,8 @@ git --version
 
 ### Paso 1: Clonar el Proyecto
 ```bash
-git clone <repository-url>
-cd 03-plantilla-proyecto-sistema-datos
+git clone https://github.com/Fisherk2/plantilla-proyecto-sistema-datos
+cd plantilla-proyecto-sistema-datos
 ```
 
 ### Paso 2: Configurar Variables de Entorno
@@ -294,30 +295,18 @@ whoami  # y pon ese valor en DB_USER
 
 ## 🤝 Contribución
 
-### 🎯 Cómo Contribuir
+¡Las contribuciones son bienvenidas! Por favor lee nuestra [guía de contribución](CONTRIBUTING.MD) para detalles sobre:
 
-#### Reportar Problemas
-1. **Issues:** Abre un issue describiendo el problema
-2. **Información requerida:** Sistema, versión, pasos para reproducir
-3. **Screenshots:** Incluye capturas de pantalla si aplica
+- Cómo reportar problemas y sugerir mejoras
+- Flujo de trabajo para Pull Requests
+- Estándares de código y convenciones
+- Template para reporte de issues
 
-#### Proponer Mejoras
-1. **Discusión:** Abre un issue para discutir cambios grandes
-2. **Pull Requests:** Para cambios pequeños y claros
-3. **Testing:** Asegúrate que `verify_setup.sh` pasa después de cambios
-
-#### Convenciones de Contribución
-- **Commits:** Mensajes claros y descriptivos
-- **Código:** Sigue las [convenciones de nomenclatura](naming_conventions.md)
-- **Documentación:** Actualiza README si agregas nuevos scripts
-- **Tests:** Ejecuta validación completa antes de PR
-
-### 📋 Checklist para Contribuciones
-- [ ] El código sigue las convenciones establecidas
-- [ ] La documentación está actualizada
-- [ ] `verify_setup.sh` pasa exitosamente
-- [ ] No hay información sensible en los cambios
-- [ ] Los commits tienen mensajes descriptivos
+### 📋 Checklist Rápido
+- [ ] Lee la [guía completa](CONTRIBUTING.MD)
+- [ ] Sigue las convenciones de [nomenclatura](naming_conventions.md)
+- [ ] Ejecuta `./verify_setup.sh` antes de submit
+- [ ] Actualiza documentación si aplica
 
 ---
 
