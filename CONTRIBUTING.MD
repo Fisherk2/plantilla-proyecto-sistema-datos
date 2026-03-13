@@ -30,7 +30,7 @@
 ### 1. Preparación
 ```bash
 # Fork y clona el repositorio
-git clone https://github.com/tu-usuario/plantilla-proyecto-sistema-datos
+git clone https://github.com/Fisherk2/plantilla-proyecto-sistema-datos
 cd plantilla-proyecto-sistema-datos
 
 # Crea tu rama
