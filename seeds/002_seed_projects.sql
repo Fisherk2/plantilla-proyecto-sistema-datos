@@ -1,18 +1,17 @@
--- =================================================================
+-- 🮙🮘🮙🮘🮙🮙🮘🮙🮘🮙🮙🮘🮙🮘🮙🮙🮘🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙
 -- Seed: 002_seed_projects.sql
--- Purpose: Populate projects table with test data referencing existing users
--- Author: Database Team
+-- Purpose: Poblar tabla de proyectos con datos de prueba
+-- Author: fisherk2
 -- Version: 1.0
 -- Date: 2026-03-13
--- Dependencies: 001_create_projects_table.sql and 001_seed_users.sql must be executed first
--- Description: Insert sample projects with valid foreign keys to users table
--- =================================================================
+-- Dependencies: 001_create_projects_table.sql y 001_seed_users.sql deben ser ejecutados primero
+-- 🮙🮘🮙🮘🮙🮙🮘🮙🮘🮙🮙🮘🮙🮘🮙🮙🮘🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙
 
--- Limpiar datos existentes de forma segura
+-- ■■■■■■■■■■■■■ Limpiar datos existentes de forma segura ■■■■■■■■■■■■■
 -- TRUNCATE reinicia secuencias y respeta integridad referencial con CASCADE
 TRUNCATE TABLE projects RESTART IDENTITY CASCADE;
 
--- Insertar proyectos de ejemplo para usuarios existentes
+-- ■■■■■■■■■■■■■ Insertar proyectos de ejemplo para usuarios existentes ■■■■■■■■■■■■■
 -- Usando subqueries para obtener user_id válidos de la tabla users
 -- Usando ON CONFLICT DO NOTHING para idempotencia y evitar duplicados
 INSERT INTO projects (name, description, code, user_id, status, priority, start_date, end_date, budget, created_at, updated_at) VALUES
@@ -54,7 +53,7 @@ INSERT INTO projects (name, description, code, user_id, status, priority, start_
  '2024-04-01', '2024-06-30', 35000.00, NOW(), NOW())
 ON CONFLICT (code) DO NOTHING;
 
--- Insertar proyectos adicionales para testing de carga y paginación
+-- ■■■■■■■■■■■■■ Insertar proyectos adicionales para testing de carga y paginación ■■■■■■■■■■■■■
 -- Proyectos para usuarios genéricos de testing
 INSERT INTO projects (name, description, user_id, status, priority, budget, created_at, updated_at) VALUES
 ('Test Project Alpha', 'Testing project for load testing', 
@@ -67,7 +66,7 @@ INSERT INTO projects (name, description, user_id, status, priority, budget, crea
  (SELECT id FROM users WHERE username = 'test_user_3' LIMIT 1), 'active', 'high', 10000.00, NOW(), NOW())
 ON CONFLICT (code) DO NOTHING;
 
--- Verificar inserción exitosa y validar integridad referencial
+-- ■■■■■■■■■■■■■ Verificar inserción exitosa y validar integridad referencial ■■■■■■■■■■■■■
 DO $$
 DECLARE
     project_count INTEGER;
@@ -91,7 +90,8 @@ BEGIN
     END IF;
 END $$;
 
--- Nota sobre integridad referencial:
+--▁▂▃▄▅▆▇███████ Nota sobre integridad referencial ███████▇▆▅▄▃▂▁ 
+
 -- Los user_id se obtienen dinámicamente de la tabla users para garantizar FK válidas
 -- Si el seed de users no se ejecuta primero, este script fallará (comportamiento esperado)
 -- Los códigos de proyecto son únicos para testing de conflictos ON CONFLICT
