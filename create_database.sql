@@ -12,8 +12,8 @@ SET client_min_messages = warning;
 
 -- ■■■■■■■■■■■■■ Crear base de datos con encoding UTF8 y locale apropiado ■■■■■■■■■■■■■
 -- Usando template0 para evitar copiar configuraciones de base de datos existentes
--- LC_COLLATE y LC_CTYPE configurados a 'en_US.UTF-8' para operaciones de string consistentes
-CREATE DATABASE your_database_name
+-- LC_COLLATE y LC_CTYPE configurados a 'en_US.UTF-8' para operaciones consistentes de strings
+CREATE DATABASE IF NOT EXISTS your_database_name
     WITH 
     OWNER = postgres
     ENCODING = 'UTF8'
@@ -34,7 +34,7 @@ BEGIN
     END IF;
 END $$;
 
--- ■■■■■■■■■■■■■ Conceder permisos básicos al usuario postgres (puede personalizarse por ambiente) ■■■■■■■■■■■■■
+-- ■■■■■■■■■■■■■ Otorgar permisos básicos al usuario postgres (personalizable por ambiente) ■■■■■■■■■■■■■
 -- Esto asegura que la base de datos sea accesible para scripts de migración subsecuentes
 GRANT ALL PRIVILEGES ON DATABASE your_database_name TO postgres;
 
@@ -42,9 +42,10 @@ GRANT ALL PRIVILEGES ON DATABASE your_database_name TO postgres;
 -- Este comentario sirve como documentación para miembros del equipo
 COMMENT ON DATABASE your_database_name IS 'Base de datos principal de la aplicación - creada con create_database.sql';
 
--- ■■■■■■■■■■■■■ Mensaje de completación del script de creación de base de datos ■■■■■■■■■■■■■
+-- ■■■■■■■■■■■■■ Desconectarse de la nueva base de datos para retornar al estado de conexión original ■■■■■■■■■■■■■
+-- Esto previene que scripts subsecuentes se ejecuten accidentalmente contra la base de datos incorrecta
+\c postgres
+
+-- ■■■■■■■■■■■■■ Mensaje de finalización del script de creación de base de datos ■■■■■■■■■■■■■
 -- Esto proporciona retroalimentación clara de que la base de datos está lista para migraciones
-DO $$
-BEGIN
-    RAISE NOTICE 'Script de creación de base de datos completado. Base de datos "your_database_name" está lista para migraciones.';
-END $$;
+RAISE NOTICE 'Script de creación de base de datos completado. Base de datos "your_database_name" está lista para migraciones.';

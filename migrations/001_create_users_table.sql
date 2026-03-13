@@ -7,6 +7,9 @@
 -- Dependencies: create_database.sql debe ser ejecutado primero
 -- 🮙🮘🮙🮘🮙🮙🮘🮙🮘🮙🮙🮘🮙🮘🮙🮙🮘🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙🮙🮘🮙
 
+-- ■■■■■■■■■■■■■ Conectar a la base de datos ■■■■■■■■■■■■■
+\c your_database_name
+
 -- ■■■■■■■■■■■■■ Crear tabla de usuarios ■■■■■■■■■■■■■
 -- Usar SERIAL para autoincrementar la llave primaria
 CREATE TABLE IF NOT EXISTS users (
