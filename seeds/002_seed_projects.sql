@@ -90,7 +90,7 @@ BEGIN
     END IF;
 END $$;
 
---▁▂▃▄▅▆▇███████ Nota sobre integridad referencial ███████▇▆▅▄▃▂▁ 
+--▁▂▃▄▅▆▇███████ Nota sobre integridad referencial ███████▇▆▅▄▃▂▁
 
 -- Los user_id se obtienen dinámicamente de la tabla users para garantizar FK válidas
 -- Si el seed de users no se ejecuta primero, este script fallará (comportamiento esperado)
