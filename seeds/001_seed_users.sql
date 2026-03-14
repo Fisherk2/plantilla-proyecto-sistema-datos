@@ -15,13 +15,13 @@ TRUNCATE TABLE users RESTART IDENTITY CASCADE;
 -- Usando ON CONFLICT DO NOTHING para idempotencia y evitar duplicados
 INSERT INTO users (username, email, password_hash, first_name, last_name, phone, is_active, is_verified, created_at, updated_at) VALUES
 -- Usuario administrador principal para testing de roles
-('admin_user', 'admin.test@example.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj6ukx.LrUpm', 'Admin', 'Test', '+1234567890', true, true, NOW(), NOW()),
+('admin_user', 'admin.test@example.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj6ukx.LrUpmX', 'Admin', 'Test', '+1234567890', true, true, NOW(), NOW()),
 
 -- Usuario estándar para testing funcional básico
-('john_doe', 'john.doe@example.com', '$2b$12$9XqYcWZqKdA8xKjNqQZ9eG5rT7zLmN8pQrS6tUvW3xYcZfRjHhKq', 'John', 'Doe', '+1987654321', true, true, NOW(), NOW()),
+('john_doe', 'john.doe@example.com', '$2b$12$9XqYcWZqKdA8xKjNqQZ9eG5rT7zLmN8pQrS6tUvW3xYcZfRjHhKqX', 'John', 'Doe', '+1987654321', true, true, NOW(), NOW()),
 
 -- Usuario inactivo para testing de soft delete
-('jane_smith', 'jane.smith@example.com', '$2b$12$YzA1b2N3c4R5e6f7g8h9iJ0kL1mN2oP3qR4sT5uV6wX7yZ8a9b0c', 'Jane', 'Smith', '+1122334455', false, false, NOW(), NOW()),
+('jane_smith', 'jane.smith@example.com', '$2b$12$YzA1b2N3c4R5e6f7g8h9iJ0kL1mN2oP3qR4sT5uV6wX7yZ8a9b0cX', 'Jane', 'Smith', '+1122334455', false, false, NOW(), NOW()),
 
 -- Usuario no verificado para testing de flujo de verificación
 ('mike_wilson', 'mike.wilson@example.com', '$2b$12$dE4f5g6h7iJ8kL9mN0oP1qR2sT3uV4wX5yZ6a7b8c9d0eF1g2h3i4j5', 'Mike', 'Wilson', '+1555666777', true, false, NOW(), NOW()),

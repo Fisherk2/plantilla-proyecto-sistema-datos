@@ -11,3 +11,9 @@ psql -U postgres -h localhost -d your_database_name -f migrations/001_create_use
 
 # Crear tabla proyectos
 psql -U postgres -h localhost -d your_database_name -f migrations/002_create_projects_table.sql
+
+# Insertar usuarios de prueba
+psql -U postgres -h localhost -d your_database_name -f seeds/001_seed_users.sql
+
+# Insertar proyectos de prueba
+psql -U postgres -h localhost -d your_database_name -f seeds/002_seed_projects.sql
