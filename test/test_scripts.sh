@@ -17,3 +17,10 @@ psql -U postgres -h localhost -d your_database_name -f seeds/001_seed_users.sql
 
 # Insertar proyectos de prueba
 psql -U postgres -h localhost -d your_database_name -f seeds/002_seed_projects.sql
+
+# Vericar configuracion de la base de datos
+chmod +x verify_config.sh
+./verify_config.sh
+
+# Borrar base de datos
+psql -U postgres -h localhost -d postgres -f drop_database.sql

@@ -33,32 +33,29 @@ DO $$
 BEGIN
     IF EXISTS (SELECT 1 FROM pg_database WHERE datname = 'your_database_name') THEN
         RAISE NOTICE 'Base de datos encontrada: %', 'your_database_name';
-        
         -- Terminar todas las conexiones activas a la base de datos
         -- Esto previene el error "database is being accessed by other users"
         RAISE NOTICE 'Terminando conexiones activas...';
-        
         PERFORM pg_terminate_backend(pid) 
         FROM pg_stat_activity 
         WHERE datname = 'your_database_name' 
         AND pid <> pg_backend_pid();
-        
         -- Esperar un momento para que las conexiones se terminen completamente
         PERFORM pg_sleep(1);
-        
-        -- ◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤ ⎡ Eliminar la base de datos ⎦ ◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
         RAISE NOTICE 'Eliminando base de datos: %', 'your_database_name';
-        DROP DATABASE IF EXISTS your_database_name;
-        
-        RAISE NOTICE 'Base de datos eliminada exitosamente';
+        -- Salir del bloque DO para ejecutar DROP DATABASE fuera de transacción
+        RAISE NOTICE 'Saliendo del bloque de transacción para eliminar base de datos...';
     ELSE
         RAISE NOTICE 'La base de datos % no existe, no se requiere eliminación', 'your_database_name';
     END IF;
     
 EXCEPTION
     WHEN OTHERS THEN
-        RAISE EXCEPTION 'Error al eliminar base de datos: %', SQLERRM;
+        RAISE EXCEPTION 'Error al verificar base de datos: %', SQLERRM;
 END $$;
+
+-- ◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤ ⎡ Ejecutar DROP DATABASE fuera de transacción ⎦ ◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+DROP DATABASE IF EXISTS your_database_name;
 
 --◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
 -- VERIFICACIÓN FINAL
