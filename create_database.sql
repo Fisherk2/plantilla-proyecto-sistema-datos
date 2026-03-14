@@ -10,10 +10,26 @@
 SET client_encoding = 'UTF8';
 SET client_min_messages = warning;
 
--- ■■■■■■■■■■■■■ Crear base de datos con encoding UTF8 y locale apropiado ■■■■■■■■■■■■■
+-- ■■■■■■■■■■■■ Crear base de datos con encoding UTF8 y locale apropiado ■■■■■■■■■■■■
 -- Usando template0 para evitar copiar configuraciones de base de datos existentes
 -- LC_COLLATE y LC_CTYPE configurados a 'en_US.UTF-8' para operaciones consistentes de strings
-CREATE DATABASE IF NOT EXISTS your_database_name
+-- Nota: PostgreSQL no soporta "IF NOT EXISTS" en CREATE DATABASE, usamos enfoque con shell
+-- Primero verificamos si existe, luego creamos si es necesario
+
+-- ■■■■■■■■■■■■ Verificar si la base de datos ya existe ■■■■■■■■■■■■
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM pg_database WHERE datname = 'your_database_name') THEN
+        RAISE NOTICE 'Base de datos "your_database_name" ya existe. Omitiendo creación.';
+    ELSE
+        RAISE NOTICE 'Creando base de datos "your_database_name"...';
+    END IF;
+END $$;
+
+-- ■■■■■■■■■■■■ Crear base de datos (solo si no existe) ■■■■■■■■■■■■
+-- Esto se ejecuta siempre, pero PostgreSQL dará error si ya existe (lo manejamos arriba)
+\set ON_ERROR_STOP on
+CREATE DATABASE your_database_name
     WITH 
     OWNER = postgres
     ENCODING = 'UTF8'
@@ -22,23 +38,13 @@ CREATE DATABASE IF NOT EXISTS your_database_name
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1
     TEMPLATE = template0;
+\set ON_ERROR_STOP off
 
--- ■■■■■■■■■■■■■ Verificar creación de base de datos y proporcionar retroalimentación ■■■■■■■■■■■■■
--- Esto ayuda en scripts automatizados para confirmar creación exitosa
-DO $$
-BEGIN
-    IF EXISTS (SELECT 1 FROM pg_database WHERE datname = 'your_database_name') THEN
-        RAISE NOTICE 'Base de datos "your_database_name" creada exitosamente o ya existe';
-    ELSE
-        RAISE EXCEPTION 'Falló la creación de la base de datos "your_database_name"';
-    END IF;
-END $$;
-
--- ■■■■■■■■■■■■■ Otorgar permisos básicos al usuario postgres (personalizable por ambiente) ■■■■■■■■■■■■■
+-- ■■■■■■■■■■■■ Otorgar permisos básicos al usuario postgres (personalizable por ambiente) ■■■■■■■■■■■■
 -- Esto asegura que la base de datos sea accesible para scripts de migración subsecuentes
 GRANT ALL PRIVILEGES ON DATABASE your_database_name TO postgres;
 
--- ■■■■■■■■■■■■■ Proporcionar instrucciones de uso para desarrolladores ■■■■■■■■■■■■■
+-- ■■■■■■■■■■■■ Proporcionar instrucciones de uso para desarrolladores ■■■■■■■■■■■■
 -- Este comentario sirve como documentación para miembros del equipo
 COMMENT ON DATABASE your_database_name IS 'Base de datos principal de la aplicación - creada con create_database.sql';
 
@@ -46,6 +52,11 @@ COMMENT ON DATABASE your_database_name IS 'Base de datos principal de la aplicac
 -- Esto previene que scripts subsecuentes se ejecuten accidentalmente contra la base de datos incorrecta
 \c postgres
 
--- ■■■■■■■■■■■■■ Mensaje de finalización del script de creación de base de datos ■■■■■■■■■■■■■
+-- ■■■■■■■■■■■■ Mensaje de finalización del script de creación de base de datos ■■■■■■■■■■■■
 -- Esto proporciona retroalimentación clara de que la base de datos está lista para migraciones
-RAISE NOTICE 'Script de creación de base de datos completado. Base de datos "your_database_name" está lista para migraciones.';
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM pg_database WHERE datname = 'your_database_name') THEN
+        RAISE NOTICE 'Script de creación de base de datos completado. Base de datos "your_database_name" está lista para migraciones.';
+    END IF;
+END $$;
