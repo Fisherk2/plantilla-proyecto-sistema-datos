@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script para probar la conexion a la base de datos
+# Script para probar la conexion a la base de datos utilizando .env
 # ...
 
 # Creacion de base de datos
