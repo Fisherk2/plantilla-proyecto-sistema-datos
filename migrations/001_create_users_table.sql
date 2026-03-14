@@ -81,12 +81,15 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
-CREATE TRIGGER IF NOT EXISTS trigger_users_updated_at
+-- 
+-- ■■■■■■■■■■■■■ Crear trigger para actualizar timestamp (manejando existencia) ■■■■■■■■■■■■■
+DROP TRIGGER IF EXISTS trigger_users_updated_at ON users;
+CREATE TRIGGER trigger_users_updated_at
     BEFORE UPDATE ON users
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
--- ■■■■■■■■■■■■■ Proporcionar retroalimentación para migración exitosa■■■■■■■■■■■■■
+-- ■■■■■■■■■■■■■ Proporcionar retroalimentación para migración exitosa ■■■■■■■■■■■■■
 DO $$
 BEGIN
     IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'users') THEN
