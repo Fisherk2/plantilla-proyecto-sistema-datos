@@ -81,7 +81,9 @@ CREATE INDEX IF NOT EXISTS idx_projects_name ON projects(name);
 
 -- ■■■■■■■■■■■■■ Reutilizar la función trigger existente para timestamp updated_at ■■■■■■■■■■■■■
 -- Esto asegura que updated_at siempre esté actualizado cuando se modifican registros
-CREATE TRIGGER IF NOT EXISTS trigger_projects_updated_at
+-- Crear trigger para actualizar timestamp (manejando existencia)
+DROP TRIGGER IF EXISTS trigger_projects_updated_at ON projects;
+CREATE TRIGGER trigger_projects_updated_at
     BEFORE UPDATE ON projects
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
