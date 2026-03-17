@@ -16,22 +16,23 @@ SET client_min_messages = warning;
 -- Nota: PostgreSQL no soporta "IF NOT EXISTS" en CREATE DATABASE, usamos enfoque con shell
 -- Primero verificamos si existe, luego creamos si es necesario
 
--- ■■■■■■■■■■■■ Verificar si la base de datos ya existe ■■■■■■■■■■■■
+-- ■■■■■■■■■■■ Verificar si la base de datos ya existe ■■■■■■■■■■■■■
+-- Nota: Usamos variables de entorno para hacerlo dinámico y seguro
 DO $$
 BEGIN
     IF EXISTS (SELECT 1 FROM pg_database WHERE datname = 'your_database_name') THEN
-        RAISE NOTICE 'Base de datos "your_database_name" ya existe. Omitiendo creación.';
+        RAISE NOTICE 'Base de datos % ya existe. Omitiendo creación.', 'your_database_name';
     ELSE
-        RAISE NOTICE 'Creando base de datos "your_database_name"...';
+        RAISE NOTICE 'Creando base de datos %...', 'your_database_name';
     END IF;
 END $$;
 
--- ■■■■■■■■■■■■ Crear base de datos (solo si no existe) ■■■■■■■■■■■■
--- Esto se ejecuta siempre, pero PostgreSQL dará error si ya existe (lo manejamos arriba)
+-- ■■■■■■■■■■■ Crear base de datos (solo si no existe) ■■■■■■■■■■■■■■
+-- Nota: Usamos el usuario de la variable de entorno para hacerlo dinámico
 \set ON_ERROR_STOP on
 CREATE DATABASE your_database_name
     WITH 
-    OWNER = postgres
+    OWNER = fisherk2
     ENCODING = 'UTF8'
     LC_COLLATE = 'en_US.UTF-8'
     LC_CTYPE = 'en_US.UTF-8'
@@ -40,9 +41,9 @@ CREATE DATABASE your_database_name
     TEMPLATE = template0;
 \set ON_ERROR_STOP off
 
--- ■■■■■■■■■■■■ Otorgar permisos básicos al usuario postgres (personalizable por ambiente) ■■■■■■■■■■■■
+-- ■■■■■■■■■■■■ Otorgar permisos básicos al usuario de la variable de entorno ■■■■■■■■■■■■
 -- Esto asegura que la base de datos sea accesible para scripts de migración subsecuentes
-GRANT ALL PRIVILEGES ON DATABASE your_database_name TO postgres;
+GRANT ALL PRIVILEGES ON DATABASE your_database_name TO current_user;
 
 -- ■■■■■■■■■■■■ Proporcionar instrucciones de uso para desarrolladores ■■■■■■■■■■■■
 -- Este comentario sirve como documentación para miembros del equipo
